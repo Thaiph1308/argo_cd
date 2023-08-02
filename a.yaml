@@ -1,0 +1,25 @@
+
+
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: guestbook
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/Thaiph1308/argo_cd.git
+      revision: HEAD
+      files:
+      - path: "*/*.yaml"
+  template:
+    metadata:
+      name: '{{cluster.name}}-guestbook'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/Thaiph1308/argo_cd.git
+        targetRevision: HEAD
+        path: test
+      destination:
+        server: '{{cluster.address}}'
+        namespace: test
